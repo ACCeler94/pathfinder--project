@@ -1,0 +1,23 @@
+body {
+  background-color: $background-main;
+  font-family: $font-main;
+  color: $font-light;
+  height: 2181px;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  text-align: center;
+  padding-top: 2.5%;
+
+  a {
+    color: $font-light;
+    font-weight: $font-semibold;
+    font-size: $nav-text-size;
+    margin: 0 2.5%;
+    letter-spacing: 3px;
+  }
+}

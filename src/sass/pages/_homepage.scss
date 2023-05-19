@@ -1,0 +1,53 @@
+.homepage {
+  display: none;
+  margin-top: -20%;
+}
+
+.homepage__image-box {
+  text-shadow: 0 0 54px rgba(0, 0, 0, 0.26);
+  position: relative;
+  display: flex;
+  margin-bottom: 5%;
+
+
+  span {
+    font-size: $image-box-sub-title;
+    line-height: 27px;
+    letter-spacing: 4px;
+  }
+}
+
+.image-box-left {
+  padding-left: 7.5%;
+
+
+  img {
+    width: 600px;
+    height: 400px;
+  }
+
+  .homepage__image-box_text-container {
+    position: absolute;
+    bottom: 15%;
+    left: 30%;
+  }
+}
+
+.image-box-right {
+
+  justify-content: end;
+  margin-right: 5%;
+
+
+  img {
+    min-width: 700px;
+    width: 65%;
+
+  }
+
+  .homepage__image-box_text-container {
+    position: absolute;
+    top: 15%;
+    left: 12.5%;
+  }
+}

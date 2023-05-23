@@ -62,8 +62,9 @@ class FinderGrid {
         adjacentSquares.push(idNextString, idBelowString)
       } else if (id % thisGrid.numOfColumns === 0) { // push only previous and below for last square
         adjacentSquares.push(idPreviousString, idBelowString)
-      } // statement for the rest elements of this row
-      adjacentSquares.push(idPreviousString, idNextString, idBelowString)
+      } else { // statement for the rest elements of this row
+        adjacentSquares.push(idPreviousString, idNextString, idBelowString)
+      }
 
       // check last row
     } else if (id <= thisGrid.numOfSquares && id >= thisGrid.numOfSquares - thisGrid.numOfColumns) {
@@ -71,8 +72,9 @@ class FinderGrid {
         adjacentSquares.push(idNextString, idAboveString);
       } else if (id % thisGrid.numOfColumns === 0) { // check for last element
         adjacentSquares.push(idPreviousString, idAboveString);
-      } // statement for the rest elements of this row
-      adjacentSquares.push(idPreviousString, idNextString, idAboveString)
+      } else { // statement for the rest elements of this row
+        adjacentSquares.push(idPreviousString, idNextString, idAboveString)
+      }
 
       // statement for the rest of the rows
     } else {
@@ -80,9 +82,9 @@ class FinderGrid {
         adjacentSquares.push(idNextString, idBelowString, idAboveString)
       } else if ((id % thisGrid.numOfColumns === 0)) { // check for last element in a row
         adjacentSquares.push(idPreviousString, idBelowString, idAboveString)
+      } else {
+        adjacentSquares.push(idPreviousString, idNextString, idBelowString, idAboveString)
       }
-
-      adjacentSquares.push(idPreviousString, idNextString, idBelowString, idAboveString)
     }
 
     return adjacentSquares

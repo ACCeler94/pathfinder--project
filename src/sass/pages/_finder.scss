@@ -1,8 +1,60 @@
 .finder {
+  display: none;
   margin-top: -27.5%;
 }
 
 .finder__text-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 50px;
+}
+
+.finder__grid-wrapper {
+  margin: 0 auto;
+  width: 500px;
+  height: 500px;
+}
+
+.finder__grid {
+  display: grid;
+  grid-template-columns: repeat($grid-columns, 1fr);
+  grid-template-rows: repeat($grid-rows, 1fr);
+  height: 100%;
+  width: 100%;
+  border: 2px solid $grid-border-color;
+
+
+  .square {
+    border: 1px solid $grid-border-color;
+    cursor: pointer;
+
+  }
+
+  .square.selected {
+    background-color: $color-tile-selected;
+  }
+
+  .square.start {
+    background-color: $color-tile-green;
+  }
+
+  .square.end {
+    background-color: $color-tile-red;
+  }
+
+  .square.solution {
+    background-color: $color-tile-green;
+  }
+
+  .square.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.btn-finder-wrapper {
+  text-align: center;
+
+  .btn-finder {
+    margin-top: 50px
+  }
 }

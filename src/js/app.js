@@ -1,4 +1,4 @@
-import FinderGrid from "./components/FinderGrid.js";
+import FinderGrid from "./components/FinderGrid/FinderGrid.js";
 
 const app = {
   init: function () {

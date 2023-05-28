@@ -125,8 +125,6 @@ class FinderGrid {
         thisFinder.dom.finderButton.removeEventListener('click', thisFinder.eventHandlers.startOver);
 
         // reset values to default
-
-        thisFinder.allSquares = [];
         thisFinder.selectedSquares = [];
         thisFinder.isStartSelected = false;
         thisFinder.isEndSelected = false;
@@ -143,6 +141,10 @@ class FinderGrid {
         document.querySelectorAll('.' + classNames.solution).forEach(element => {
           element.classList.remove(classNames.solution)
         });
+        document.querySelectorAll('.' + classNames.disabled).forEach(element => {
+          element.classList.remove(classNames.disabled)
+        });
+
         document.querySelector('.' + classNames.start).classList.remove(classNames.start);
         document.querySelector('.' + classNames.end).classList.remove(classNames.end);
 
@@ -347,10 +349,11 @@ class FinderGrid {
     let shortestArray = thisFinder.routes[0];
 
     for (let i = 1; i < thisFinder.routes.length; i++) {
-      if (thisFinder.routes[i].length < shortestArray) {
+      if (thisFinder.routes[i].length < shortestArray.length) {
         shortestArray = thisFinder.routes[i]
       }
     }
+    console.log('shortestArray', shortestArray)
 
 
     // add class solution to color the shortest route

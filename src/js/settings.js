@@ -1,7 +1,9 @@
 export const select = {
   containerOf: {
-    grid: '.finder__grid'
+    grid: '.finder__grid',
+    pages: '#pages',
   },
+  navLinks: '.nav-link',
   square: '.square',
   finderText: '.finder__text',
   finderButton: '.btn-finder',
@@ -24,6 +26,9 @@ export const settings = {
 }
 
 export const classNames = {
+  pages: {
+    active: 'active'
+  },
   solution: 'solution',
   selected: 'selected',
   disabled: 'disabled',

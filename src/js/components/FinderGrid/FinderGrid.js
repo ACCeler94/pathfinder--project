@@ -24,16 +24,16 @@ class FinderGrid {
         if (!event.target.classList.contains(classNames.disabled) && !event.target.classList.contains(classNames.selected)) {
           event.target.classList.add(classNames.selected);
           adjacentToTarget = thisFinder.calculateAdjacent(elementId)
-          console.log('adjacentToTarget', adjacentToTarget)
+          //console.log('adjacentToTarget', adjacentToTarget)
           thisFinder.selectedSquares.push({
             squareId: elementId,
             adjacent: adjacentToTarget
           });
-          console.log(thisFinder.selectedSquares);
+          //console.log(thisFinder.selectedSquares);
         } else if (event.target.classList.contains(classNames.selected)) { // removes selection when clicked again
           event.target.classList.remove(classNames.selected);
           thisFinder.selectedSquares = thisFinder.selectedSquares.filter(element => element.squareId !== elementId);
-          console.log(thisFinder.selectedSquares);
+          //console.log(thisFinder.selectedSquares);
         }
 
         thisFinder.disableNonAdjacentSquares()
@@ -258,7 +258,63 @@ class FinderGrid {
     }
   }
 
+  computeRoute() {
+    const thisFinder = this;
 
+
+    thisFinder.start = thisFinder.selectedSquares[thisFinder.startIndex];
+    thisFinder.end = thisFinder.selectedSquares[thisFinder.endIndex];
+
+
+    function calculateRoute(elementId, route, visited) {
+
+      if (thisFinder.selectedSquares.findIndex(selectedElement => selectedElement.squareId === elementId) !== -1) {
+        route.push(elementId);
+        visited.push(elementId);
+        //console.log('elementId', elementId);
+        // if element is end point then push route and return
+        if (elementId === thisFinder.end.squareId) {
+          thisFinder.routes.push(route);
+          return
+        } else {
+          let newIndex = thisFinder.selectedSquares.findIndex(selectedElement => selectedElement.squareId === elementId);
+          //console.log('newIndex', newIndex)
+          let newElement = thisFinder.selectedSquares[newIndex];
+          //console.log('new element', newElement)
+
+          for (let adjacentElementId of newElement.adjacent) {
+            //console.log('adjacent element', adjacentElementId)
+
+            // prevent infinite loop, create copies of arrays to have different results
+            if (!visited.includes(adjacentElementId)) {
+              calculateRoute(adjacentElementId, route.slice(), visited.slice());
+            }
+          }
+        }
+
+        //console.log('calculateRoute called with', elementId)
+      }
+    }
+
+
+    for (let elementId of thisFinder.start.adjacent) {
+
+      // initialize route and visited array with starting square to prevent going back to it
+      calculateRoute(elementId, [thisFinder.start.squareId], [thisFinder.start.squareId])
+    }
+
+    console.log('routes', thisFinder.routes)
+
+    let shortestArray = thisFinder.routes[0];
+
+    for (let i = 1; i < thisFinder.routes.length; i++) {
+      if (thisFinder.routes[i].length < shortestArray) {
+        shortestArray = thisFinder.routes[i]
+      }
+    }
+    //console.log('shortestArray', shortestArray)
+  }
 }
+
 
 export default FinderGrid;

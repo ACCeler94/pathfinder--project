@@ -11,10 +11,10 @@ class FinderGrid {
     thisFinder.selectedSquares = [];
     thisFinder.isStartSelected = false;
     thisFinder.isEndSelected = false;
-    thisFinder.startIndex;
-    thisFinder.endIndex;
-    thisFinder.start;
-    thisFinder.end;
+    thisFinder.startIndex = null;
+    thisFinder.endIndex = null;
+    thisFinder.start = null;
+    thisFinder.end = null;
     thisFinder.routes = [];
     this.eventHandlers = {
       selectSquare: function (event) {
@@ -113,6 +113,41 @@ class FinderGrid {
             thisFinder.dom.finderButton.innerHTML = settings.FinderGrid.step2ButtonText;
           }, 2000);
         }
+      },
+      startOver: function () {
+        thisFinder.dom.gridContainer.classList.remove('step-3');
+        thisFinder.dom.gridContainer.classList.add('step-1');
+
+        thisFinder.dom.finderText.innerHTML = settings.FinderGrid.step1Message;
+        thisFinder.dom.finderButton.innerHTML = settings.FinderGrid.step1ButtonText;
+
+        // remove old event listener
+        thisFinder.dom.finderButton.removeEventListener('click', thisFinder.eventHandlers.startOver);
+
+        // reset values to default
+
+        thisFinder.allSquares = [];
+        thisFinder.selectedSquares = [];
+        thisFinder.isStartSelected = false;
+        thisFinder.isEndSelected = false;
+        thisFinder.startIndex = null;
+        thisFinder.endIndex = null;
+        thisFinder.start = null;
+        thisFinder.end = null;
+        thisFinder.routes = [];
+
+        // remove old classes
+        document.querySelectorAll('.' + classNames.selected).forEach(element => {
+          element.classList.remove(classNames.selected)
+        });
+        document.querySelectorAll('.' + classNames.solution).forEach(element => {
+          element.classList.remove(classNames.solution)
+        });
+        document.querySelector('.' + classNames.start).classList.remove(classNames.start);
+        document.querySelector('.' + classNames.end).classList.remove(classNames.end);
+
+        // rerun initActions()
+        thisFinder.initActions();
       }
     }
 
@@ -164,6 +199,10 @@ class FinderGrid {
 
       // event listener for finder button
       thisFinder.dom.finderButton.addEventListener('click', thisFinder.eventHandlers.initStep3);
+
+    } else if (thisFinder.dom.gridContainer.classList.contains('step-3')) {
+      // event listener for finder button
+      thisFinder.dom.finderButton.addEventListener('click', thisFinder.eventHandlers.startOver);
     }
   }
 
@@ -312,7 +351,12 @@ class FinderGrid {
         shortestArray = thisFinder.routes[i]
       }
     }
-    //console.log('shortestArray', shortestArray)
+
+
+    // add class solution to color the shortest route
+    for (let element of shortestArray) {
+      document.getElementById(element).classList.add(classNames.solution);
+    }
   }
 }
 

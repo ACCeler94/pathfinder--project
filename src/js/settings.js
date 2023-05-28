@@ -24,7 +24,7 @@ export const settings = {
 }
 
 export const classNames = {
-  active: 'active',
+  solution: 'solution',
   selected: 'selected',
   disabled: 'disabled',
   start: 'start',

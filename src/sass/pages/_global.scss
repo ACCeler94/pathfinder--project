@@ -3,7 +3,7 @@ body {
   font-family: $font-main;
   color: $font-light;
   position: relative;
-  height: 200vh;
+
 }
 
 a {
@@ -12,14 +12,15 @@ a {
 
 nav {
   text-align: center;
-  padding-top: 2.5%;
+  padding-top: 2.8%;
 
   a {
     color: $font-light;
     font-weight: $font-semibold;
     font-size: $nav-text-size;
-    margin: 0 2.5%;
-    letter-spacing: 3px;
+    margin-right: 2.5%;
+    margin-left: 5%;
+    letter-spacing: 2px;
   }
 }
 
@@ -30,10 +31,10 @@ nav {
 }
 
 footer {
-  margin: 5%;
-  text-align: center;
+  margin: 6% 0;
   font-size: $footer-text-size;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
+  text-align: center;
 }
 
 .btn-primary {

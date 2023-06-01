@@ -19,16 +19,16 @@ class FinderGrid {
     this.eventHandlers = {
       selectSquare: function (event) {
         const elementId = event.target.getAttribute('id')
-        let adjacentToTarget;
+        const adjacentToTarget = thisFinder.calculateAdjacent(elementId);
 
         if (!event.target.classList.contains(classNames.disabled) && !event.target.classList.contains(classNames.selected)) {
           event.target.classList.add(classNames.selected);
-          adjacentToTarget = thisFinder.calculateAdjacent(elementId)
           //console.log('adjacentToTarget', adjacentToTarget)
           thisFinder.selectedSquares.push({
             squareId: elementId,
             adjacent: adjacentToTarget
           });
+
           //console.log(thisFinder.selectedSquares);
         } else if (event.target.classList.contains(classNames.selected)) { // removes selection when clicked again
           event.target.classList.remove(classNames.selected);
@@ -36,7 +36,8 @@ class FinderGrid {
           //console.log(thisFinder.selectedSquares);
         }
 
-        thisFinder.disableNonAdjacentSquares()
+        thisFinder.disableNonAdjacentSquares();
+        thisFinder.highlightSelectable();
       },
       initStep2: function () {
         if (thisFinder.selectedSquares.length > 2) {
@@ -47,7 +48,7 @@ class FinderGrid {
           thisFinder.dom.finderButton.innerHTML = settings.FinderGrid.step2ButtonText;
 
           // disable all non-selected squares
-          thisFinder.disableNonSelected();
+          thisFinder.disableNotSelected();
 
           // remove old event listeners
           thisFinder.dom.gridContainer.removeEventListener('click', thisFinder.eventHandlers.selectSquare);
@@ -278,6 +279,7 @@ class FinderGrid {
       }
       if (!isAdjacentToSelected && !isSelected && !element.classList.contains(classNames.disabled)) {
         element.classList.add(classNames.disabled);
+        element.classList.remove(classNames.selectable);
       } else if ((isAdjacentToSelected || isSelected) && element.classList.contains(classNames.disabled)) {
         element.classList.remove(classNames.disabled);
       }
@@ -289,12 +291,14 @@ class FinderGrid {
 
   }
 
-  disableNonSelected() {
+  disableNotSelected() {
+    // disable not selected squares for the next step (also adjacent but not selected)
     const thisFinder = this;
 
     for (let square of thisFinder.allSquares) {
       if (!square.classList.contains(classNames.disabled) && !square.classList.contains(classNames.selected)) {
-        square.classList.add(classNames.disabled)
+        square.classList.add(classNames.disabled);
+        square.classList.remove(classNames.selectable);
       }
     }
   }
@@ -361,6 +365,23 @@ class FinderGrid {
       document.getElementById(element).classList.add(classNames.solution);
     }
   }
+
+  highlightSelectable() {
+    const thisFinder = this;
+
+    for (let element of thisFinder.selectedSquares) {
+      for (let adjacentId of element.adjacent) {
+        const domElement = document.getElementById(adjacentId);
+
+        if (!domElement.classList.contains(classNames.selected)) {
+          domElement.classList.add(classNames.selectable);
+        } else {
+          domElement.classList.remove(classNames.selectable);
+        }
+      }
+    }
+  }
+
 }
 
 

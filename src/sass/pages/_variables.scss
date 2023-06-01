@@ -1,3 +1,8 @@
+$media-query-lg: 900px;
+$media-query-md: 760px;
+$media-query-sm: 640px;
+$media-query-xs: 480px;
+
 $font-main: 'Source Sans Pro', sans-serif;
 
 $font-normal: 400;
@@ -10,12 +15,30 @@ $font-light: #fff;
 $background-main: #131313;
 
 $nav-text-size: 23px;
+$nav-text-size-xs: 18px;
 
 $title-text-size: 77px;
+$title-text-size-lg: 55px;
+$title-text-size-sm: 45px;
+$title-text-size-xs: 30px;
+
 $sub-title-text-size: 28px;
+$sub-title-text-size-lg: 20px;
+$sub-title-text-size-sm: 18px;
+$sub-title-text-size-xs: 16px;
+
 
 $image-box-title: 46px;
+$image-box-title-sm: 35px;
+$image-box-title-xs: 30px;
+
+
 $image-box-sub-title: 31px;
+$image-box-sub-title-sm: 23px;
+$image-box-sub-title-xs: 19px;
+
+$finder-text-size: 36px;
+
 
 $footer-text-size: 16px;
 
@@ -30,3 +53,4 @@ $grid-border-color: #fff;
 $color-tile-selected: #C24E00;
 $color-tile-green: #2ECC71;
 $color-tile-red: #E74C3C;
+$color-tile-selectable: rgba(0, 66, 247, 0.5);

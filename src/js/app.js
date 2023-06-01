@@ -1,6 +1,7 @@
 import FinderGrid from "./components/FinderGrid/FinderGrid.js";
 import { select, classNames } from "./settings.js";
 
+
 const app = {
 
   initPages: function () {

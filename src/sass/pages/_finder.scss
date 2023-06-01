@@ -7,6 +7,23 @@
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+
+  .finder__text {
+    font-size: $image-box-title;
+    font-weight: $font-bold;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+  }
+
+  .finder__sub-text {
+    font-size: $image-box-sub-title;
+    line-height: 27px;
+    letter-spacing: 4px;
+  }
+}
+
+.finder__text-container.mobile {
+  display: none;
 }
 
 .finder__grid-wrapper {
@@ -34,6 +51,10 @@
     background-color: $color-tile-selected;
   }
 
+  .square.selectable {
+    background-color: $color-tile-selectable;
+  }
+
   .square.start {
     background-color: $color-tile-green;
   }
@@ -57,4 +78,37 @@
   .btn-finder {
     margin-top: 50px;
   }
+}
+
+
+@media only screen and (max-width: $media-query-md) {
+
+  .finder {
+    margin-top: -40%;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .finder__text-container.mobile {
+    display: block;
+    margin: 10%;
+  }
+
+  .finder__text-container {
+    .finder__text {
+      font-size: $image-box-title-sm;
+      font-weight: $font-bold;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+    }
+
+    .finder__sub-text {
+      font-size: $image-box-sub-title-sm;
+      line-height: 27px;
+      letter-spacing: 2.5px;
+    }
+  }
+
 }

@@ -32,6 +32,7 @@ export const classNames = {
   solution: 'solution',
   selected: 'selected',
   disabled: 'disabled',
+  selectable: 'selectable',
   start: 'start',
   end: 'end',
   square: 'square',

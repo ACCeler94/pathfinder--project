@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
     rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <title>Pathfinder - for travelers</title>
 </head>
@@ -31,14 +32,16 @@
 
     <div class="homepage page" id="home">
       <div class="homepage__image-box image-box-left">
-        <img src="./images/1.jpg" alt="plan your journeys image">
+        <img src="./images/1.jpg" alt="plan your journeys image" data-aos="zoom-in-right"
+          data-aos-anchor-placement="bottom-bottom" data-aos-duration="600">
         <div class="homepage__image-box_text-container">
           <h3 class="feature">PLAN YOUR JOURNEYS</h3>
           <span class="feature__sub-title">Pick attractions and book hotels</span>
         </div>
       </div>
       <div class="homepage__image-box image-box-right">
-        <img src="./images/2.jpg" alt="minimalize boredom image">
+        <img src="./images/2.jpg" alt="minimalize boredom image" data-aos="zoom-in-left"
+          data-aos-anchor-placement="center-bottom" data-aos-duration="600">
         <div class="homepage__image-box_text-container">
           <h3 class="feature">MINIMALIZE BOREDOM</h3>
           <span class="feature__sub-title">Pick routes that are short and attractive</span>
@@ -48,27 +51,40 @@
 
     <!--Finder-->
     <div class="finder page" id="finder">
-      <div class="finder__text-container">
-        <h3 class="finder__text">' '</h3>
-      </div>
-      <div class="finder__grid-wrapper">
-        <div class="finder__grid step-1">
+      <div class="desktop">
+        <div class="finder__text-container">
+          <h3 class="finder__text">' '</h3>
+        </div>
+        <div class="finder__grid-wrapper">
+          <div class="finder__grid step-1">
 
+          </div>
+        </div>
+        <div class="btn-finder-wrapper">
+          <button class="btn-primary btn-finder" type="button"></button>
         </div>
       </div>
-      <div class="btn-finder-wrapper">
-        <button class="btn-primary btn-finder" type="button"></button>
+
+      <!--Finder mobile-->
+      <div class="finder__text-container mobile">
+        <h3 class="finder__text">This function is unavailable on mobile devices</h3>
+        <p class="finder__sub-text">Please use desktop or a device with a bigger screen</p>
       </div>
     </div>
 
   </div>
 
 
+
+
   <!--Footer-->
   <footer>
     <span>All rights reserved</span>
   </footer>
-
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
   <script src="js/app.js" type="module"></script>
 </body>
 

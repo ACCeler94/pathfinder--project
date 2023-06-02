@@ -93,6 +93,8 @@ class FinderGrid {
         }
       },
       initStep3: function () {
+        const summaryModal = document.getElementById('modal');
+
         if (thisFinder.isStartSelected && thisFinder.isEndSelected) {
           thisFinder.dom.gridContainer.classList.remove('step-2');
           thisFinder.dom.gridContainer.classList.add('step-3');
@@ -105,6 +107,8 @@ class FinderGrid {
           thisFinder.dom.finderButton.removeEventListener('click', thisFinder.eventHandlers.initStep3);
 
           thisFinder.computeRoute();
+          summaryModal.showModal();
+
 
           // rerun initActions() to assign new event listeners based on step
           thisFinder.initActions();
@@ -124,6 +128,7 @@ class FinderGrid {
 
         // remove old event listener
         thisFinder.dom.finderButton.removeEventListener('click', thisFinder.eventHandlers.startOver);
+        thisFinder.dom.closeBtn.removeEventListener('click', thisFinder.eventHandlers.closeModal);
 
         // reset values to default
         thisFinder.selectedSquares = [];
@@ -151,6 +156,9 @@ class FinderGrid {
 
         // rerun initActions()
         thisFinder.initActions();
+      },
+      closeModal: function () {
+        document.getElementById('modal').close();
       }
     }
 
@@ -183,6 +191,10 @@ class FinderGrid {
     thisFinder.dom.gridContainer = document.querySelector(select.containerOf.grid);
     thisFinder.dom.finderText = document.querySelector(select.finderText);
     thisFinder.dom.finderButton = document.querySelector(select.finderButton);
+    thisFinder.dom.closeBtn = document.getElementById('close-btn');
+    thisFinder.dom.modalFullNumb = document.getElementById('full-route-number');
+    thisFinder.dom.modalLongestNumb = document.getElementById('longest-route-number');
+    thisFinder.dom.modalShortestNumb = document.getElementById('shortest-route-number');
 
   }
 
@@ -205,6 +217,7 @@ class FinderGrid {
 
     } else if (thisFinder.dom.gridContainer.classList.contains('step-3')) {
       // event listener for finder button
+      thisFinder.dom.closeBtn.addEventListener('click', thisFinder.eventHandlers.closeModal);
       thisFinder.dom.finderButton.addEventListener('click', thisFinder.eventHandlers.startOver);
     }
   }
@@ -364,6 +377,22 @@ class FinderGrid {
     for (let element of shortestArray) {
       document.getElementById(element).classList.add(classNames.solution);
     }
+
+
+    // calculate longest route
+    let longestArray = thisFinder.routes[0];
+
+    for (let i = 1; i < thisFinder.routes.length; i++) {
+      if (thisFinder.routes[i].length > longestArray.length) {
+        longestArray = thisFinder.routes[i]
+      }
+    }
+
+
+    // add numbers to the summary modal
+    thisFinder.dom.modalFullNumb.innerHTML = thisFinder.selectedSquares.length;
+    thisFinder.dom.modalLongestNumb.innerHTML = longestArray.length;
+    thisFinder.dom.modalShortestNumb.innerHTML = shortestArray.length;
   }
 
   highlightSelectable() {

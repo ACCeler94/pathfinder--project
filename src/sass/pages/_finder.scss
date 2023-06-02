@@ -81,6 +81,61 @@
 }
 
 
+.summary__modal {
+  width: 40%;
+  z-index: 10;
+  position: absolute;
+  margin: 0 auto;
+  top: 85%;
+  border: none;
+
+  .summary__modal-close-btn {
+    cursor: pointer;
+    font-size: 25px;
+    float: right;
+    background-color: transparent;
+    border: none;
+  }
+
+  .summary__modal-title {
+    font-size: $modal-title-text-size;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  .summary__modal-text-container {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 15%;
+    font-size: $modal-text-size;
+
+    h4 {
+      font-weight: $font-very-bold;
+      display: inline-block;
+      margin: 1.5% 0;
+    }
+
+    .number {
+      margin: 0 2.5%;
+      font-weight: $font-very-bold;
+    }
+
+    #longest-route-number,
+    #full-route-number {
+      color: $color-tile-selected;
+    }
+
+    #shortest-route-number {
+      color: $color-tile-green;
+    }
+  }
+}
+
+.summary__modal::backdrop {
+  background-color: $backdrop-background-color;
+}
+
+
 @media only screen and (max-width: $media-query-md) {
 
   .finder {

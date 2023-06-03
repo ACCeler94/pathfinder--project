@@ -18,7 +18,7 @@ class FinderGrid {
     thisFinder.routes = [];
     this.eventHandlers = {
       selectSquare: function (event) {
-        const elementId = event.target.getAttribute('id')
+        const elementId = event.target.id;
         const adjacentToTarget = thisFinder.calculateAdjacent(elementId);
 
         if (!event.target.classList.contains(classNames.disabled) && !event.target.classList.contains(classNames.selected)) {
@@ -31,8 +31,14 @@ class FinderGrid {
 
           //console.log(thisFinder.selectedSquares);
         } else if (event.target.classList.contains(classNames.selected)) { // removes selection when clicked again
-          event.target.classList.remove(classNames.selected);
-          thisFinder.selectedSquares = thisFinder.selectedSquares.filter(element => element.squareId !== elementId);
+          if (thisFinder.checkIfUnselectable(event)) {
+            console.log(thisFinder.checkIfUnselectable(event))
+            event.target.classList.remove(classNames.selected);
+            thisFinder.selectedSquares = thisFinder.selectedSquares.filter(element => element.squareId !== elementId);
+          } else {
+            alert('This square cannot be unselected. Please choose a square that will not make the route intermittent');
+          }
+
           //console.log(thisFinder.selectedSquares);
         }
 
@@ -64,7 +70,7 @@ class FinderGrid {
           }, 2000);
         }
       },
-      selectStartAndEnd: function (event) {
+      selectStartAndEnd: function (event, testing = false) {
 
         if (event.target.classList.contains(classNames.selected)) {
           if (!thisFinder.isStartSelected && !thisFinder.isEndSelected) {
@@ -75,7 +81,7 @@ class FinderGrid {
               return element.squareId === event.target.id
             });
 
-          } else if (thisFinder.isStartSelected && event.target.classList.contains(classNames.start)) {
+          } else if (thisFinder.isStartSelected && event.target.classList.contains(classNames.start && !testing)) {
             event.target.classList.remove(classNames.start);
             thisFinder.isStartSelected = false;
           } else if (thisFinder.isStartSelected && !thisFinder.isEndSelected) {
@@ -86,7 +92,7 @@ class FinderGrid {
               return element.squareId === event.target.id
             });
 
-          } else if (thisFinder.isEndSelected && event.target.classList.contains(classNames.end)) {
+          } else if (thisFinder.isEndSelected && event.target.classList.contains(classNames.end) && !testing) {
             event.target.classList.remove(classNames.end);
             thisFinder.isEndSelected = false;
           }
@@ -316,7 +322,7 @@ class FinderGrid {
     }
   }
 
-  computeRoute() {
+  computeRoute(testing = false) {
     const thisFinder = this;
 
 
@@ -326,11 +332,12 @@ class FinderGrid {
 
     function calculateRoute(elementId, route, visited) {
 
+      // if element is part of selected squares then push and proceed
       if (thisFinder.selectedSquares.findIndex(selectedElement => selectedElement.squareId === elementId) !== -1) {
         route.push(elementId);
         visited.push(elementId);
         //console.log('elementId', elementId);
-        // if element is end point then push route and return
+        // if element is end then push route and return
         if (elementId === thisFinder.end.squareId) {
           thisFinder.routes.push(route);
           return
@@ -356,26 +363,34 @@ class FinderGrid {
 
 
     for (let elementId of thisFinder.start.adjacent) {
-
       // initialize route and visited array with starting square to prevent going back to it
       calculateRoute(elementId, [thisFinder.start.squareId], [thisFinder.start.squareId])
     }
 
+
     console.log('routes', thisFinder.routes)
 
     let shortestArray = thisFinder.routes[0];
-
-    for (let i = 1; i < thisFinder.routes.length; i++) {
-      if (thisFinder.routes[i].length < shortestArray.length) {
-        shortestArray = thisFinder.routes[i]
+    if (!testing) {
+      for (let i = 1; i < thisFinder.routes.length; i++) {
+        if (thisFinder.routes[i].length < shortestArray.length) {
+          shortestArray = thisFinder.routes[i]
+        }
       }
-    }
-    console.log('shortestArray', shortestArray)
+      console.log('shortestArray', shortestArray)
 
 
-    // add class solution to color the shortest route
-    for (let element of shortestArray) {
-      document.getElementById(element).classList.add(classNames.solution);
+      // add class solution to color the shortest route
+      for (let element of shortestArray) {
+        document.getElementById(element).classList.add(classNames.solution);
+      }
+    } else if (testing && shortestArray === undefined) {
+      return false // if there are no routes - return false
+    } else if (testing && thisFinder.routes.length < 2) {
+      return false // if there is only one route - no alternatives - return false
+    } else {
+      console.log('shortestArray', shortestArray)
+      return true
     }
 
 
@@ -411,7 +426,51 @@ class FinderGrid {
     }
   }
 
+  checkIfUnselectable(event) {
+    const thisFinder = this;
+    let isUnselectable = false;
+    // check if clicked element has only one selected element - is one of endpoints and can be unselected
+    let adjacentCounter = 0;
+    const elementToCheck = thisFinder.selectedSquares.find(element => element.squareId === event.target.id)
+    for (let adjacentElem of elementToCheck.adjacent) {
+      if (thisFinder.selectedSquares.findIndex(element => element.squareId === adjacentElem) !== -1) {
+        adjacentCounter++
+      }
+    }
+    // if selected element is adjacent to only one selected element then its an endpoint and can be unselected
+    if (adjacentCounter === 1) {
+      isUnselectable = true
+      return isUnselectable
+    }
+
+    // simulate selected element as start and it's adjacent elements as end to check if there is alternative path to reach them --> if unselecting element won't cause gaps
+    if (!isUnselectable) {
+      thisFinder.eventHandlers.selectStartAndEnd(event, true); // select start
+      for (let adjacentElem of elementToCheck.adjacent) {
+        thisFinder.end = null;
+        thisFinder.routes = [];
+        let selectedAdjacentElemIndex = thisFinder.selectedSquares.findIndex(element => element.squareId === adjacentElem);
+        if (selectedAdjacentElemIndex !== -1) {
+          thisFinder.endIndex = selectedAdjacentElemIndex // select end
+          isUnselectable = thisFinder.computeRoute(true) // check if there is alternative route to selected element 
+        }
+      }
+
+      //revert values used for testing to default
+      thisFinder.isStartSelected = false;
+      thisFinder.isEndSelected = false;
+      thisFinder.startIndex = null;
+      thisFinder.endIndex = null;
+      thisFinder.start = null;
+      thisFinder.end = null;
+      thisFinder.routes = [];
+      event.target.classList.remove(classNames.start);
+
+      return isUnselectable;
+    }
+  }
 }
+
 
 
 export default FinderGrid;

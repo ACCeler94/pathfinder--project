@@ -72,8 +72,10 @@
       </div>
 
       <!--Modal with route summary-->
+      <!-- [html-validate-disable element-name] -->
+      <!--possibly too old version of html validate to recognize dialog element-->
       <dialog class="summary__modal" id="modal">
-        <button class="summary__modal-close-btn" id="close-btn">X</button>
+        <button class="summary__modal-close-btn" id="close-btn" type="button">X</button>
         <h3 class="summary__modal-title">SUMMARY</h3>
         <div class="summary__modal-text-container">
           <h4>FULL ROUTE:</h4><span class="number" id="full-route-number"></span><span>FIELDS</span><br>
